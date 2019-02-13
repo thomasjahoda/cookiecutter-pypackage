@@ -13,7 +13,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/audreyr/cookiecutter-pypackage/issues
+Report bugs at https://github.com/thomasjahoda/cookiecutter-pypackage/issues
 
 If you are reporting a bug, please include:
 
@@ -42,7 +42,7 @@ official docs, in docstrings, or even on the web in blog posts, articles, and su
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/audreyr/cookiecutter-pypackage/issues.
+The best way to send feedback is to file an issue at https://github.com/thomasjahoda/cookiecutter-pypackage/issues.
 
 If you are proposing a new feature:
 
@@ -167,6 +167,6 @@ To write and run your new test, follow these steps:
 
 6. Rerun your test and confirm that your test passes. If it passes, congratulations!
 
-.. cookiecutter: https://github.com/audreyr/cookiecutter-pypackage
+.. cookiecutter: https://github.com/thomasjahoda/cookiecutter-pypackage
 .. virtualenv: https://virtualenv.pypa.io/en/stable/installation
 .. git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
