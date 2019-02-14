@@ -2,12 +2,12 @@
 Cookiecutter PyPackage
 ======================
 
-.. image:: https://pyup.io/repos/github/audreyr/cookiecutter-pypackage/shield.svg
-     :target: https://pyup.io/repos/github/audreyr/cookiecutter-pypackage/
+.. image:: https://pyup.io/repos/github/thomasjahoda/cookiecutter-pypackage/shield.svg
+     :target: https://pyup.io/repos/github/thomasjahoda/cookiecutter-pypackage/
      :alt: Updates
 
-.. image:: https://travis-ci.org/audreyr/cookiecutter-pypackage.svg?branch=master
-    :target: https://travis-ci.org/audreyr/cookiecutter-pypackage     
+.. image:: https://travis-ci.org/thomasjahoda/cookiecutter-pypackage.svg?branch=master
+    :target: https://travis-ci.org/thomasjahoda/cookiecutter-pypackage
 
 Cookiecutter_ template for a Python package.
 
@@ -26,21 +26,21 @@ Features
 * Auto-release to PyPI_ when you push a new tag to master (optional)
 * Command line interface using Click (optional)
 
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
+.. _Cookiecutter: https://github.com/thomasjahoda/cookiecutter
 
 Build Status
 -------------
 
 Linux:
 
-.. image:: https://img.shields.io/travis/audreyr/cookiecutter-pypackage.svg
-    :target: https://travis-ci.org/audreyr/cookiecutter-pypackage
+.. image:: https://img.shields.io/travis/thomasjahoda/cookiecutter-pypackage.svg
+    :target: https://travis-ci.org/thomasjahoda/cookiecutter-pypackage
     :alt: Linux build status on Travis CI
 
 Windows:
 
-.. image:: https://ci.appveyor.com/api/projects/status/github/audreyr/cookiecutter-pypackage?branch=master&svg=true
-    :target: https://ci.appveyor.com/project/audreyr/cookiecutter-pypackage/branch/master
+.. image:: https://ci.appveyor.com/api/projects/status/github/thomasjahoda/cookiecutter-pypackage?branch=master&svg=true
+    :target: https://ci.appveyor.com/project/thomasjahoda/cookiecutter-pypackage/branch/master
     :alt: Windows build status on Appveyor
 
 Quickstart
@@ -151,6 +151,6 @@ make my own packaging experience better.
 .. _`tony/cookiecutter-pypackage-pythonic`: https://github.com/tony/cookiecutter-pypackage-pythonic
 .. _`ardydedase/cookiecutter-pypackage`: https://github.com/ardydedase/cookiecutter-pypackage
 .. _`lgiordani/cookiecutter-pypackage`: https://github.com/lgiordani/cookiecutter-pypackage
-.. _github comparison view: https://github.com/tony/cookiecutter-pypackage-pythonic/compare/audreyr:master...master
+.. _github comparison view: https://github.com/tony/cookiecutter-pypackage-pythonic/compare/thomasjahoda:master...master
 .. _`network`: https://github.com/thomasjahoda/cookiecutter-pypackage/network
 .. _`family tree`: https://github.com/thomasjahoda/cookiecutter-pypackage/network/members

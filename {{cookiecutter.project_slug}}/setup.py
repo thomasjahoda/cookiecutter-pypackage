@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+import pip
 
-"""The setup script."""
+from pip.req import parse_requirements
 
 from setuptools import setup, find_packages
 
@@ -11,11 +10,21 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [{%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=6.0',{%- endif %} ]
 
-setup_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest-runner',{%- endif %} ]
+requirements = parse_requirements(
+    'requirements/runtime.txt',
+    session=pip.download.PipSession()
+)
 
-test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest',{%- endif %} ]
+setup_requirements = parse_requirements(
+    'requirements/setup.txt',
+    session=pip.download.PipSession()
+)
+
+test_requirements = parse_requirements(
+    'requirements/test.txt',
+    session=pip.download.PipSession()
+)
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
