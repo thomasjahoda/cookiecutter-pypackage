@@ -1,4 +1,4 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
+.PHONY: clean clean-test clean-pyc clean-build clean-mypy docs help
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -29,7 +29,7 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean-mypy ## remove all caches and build artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -50,8 +50,14 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+clean-mypy: ## remove mypy cache
+	rm -fr .mypy_cache/
+
 lint: ## check style with flake8
-	flake8 {{ cookiecutter.project_slug }} tests
+	flake8 {{ cookiecutter.project_slug }} tests --max-line-length=120
+
+type-check: ## run tests quickly with the default Python
+	mypy managed_infonova_service_tools tests
 
 test: ## run tests quickly with the default Python
 {%- if cookiecutter.use_pytest == 'y' %}
