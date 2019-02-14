@@ -1,30 +1,17 @@
-import pip
-
-from pip.req import parse_requirements
+from pathlib import Path
 
 from setuptools import setup, find_packages
 
-with open('README.rst') as readme_file:
-    readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
+readme = Path('README.rst').read_text(encoding="utf-8")
+history = Path('docs/history.rst').read_text(encoding="utf-8")
 
+def parse_requirements(file: str):
+    return Path(file).read_text(encoding="utf-8").strip().split('\n')
 
-requirements = parse_requirements(
-    'requirements/runtime.txt',
-    session=pip.download.PipSession()
-)
-
-setup_requirements = parse_requirements(
-    'requirements/setup.txt',
-    session=pip.download.PipSession()
-)
-
-test_requirements = parse_requirements(
-    'requirements/test.txt',
-    session=pip.download.PipSession()
-)
+requirements = parse_requirements('requirements/runtime.txt')
+setup_requirements = parse_requirements('requirements/setup.txt')
+test_requirements = parse_requirements('requirements/test.txt')
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
@@ -36,7 +23,7 @@ test_requirements = parse_requirements(
 
 setup(
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
-    author_email='{{ cookiecutter.email }}',
+    author_email="{{ cookiecutter.email.replace('\"', '\\\"') }}",
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',

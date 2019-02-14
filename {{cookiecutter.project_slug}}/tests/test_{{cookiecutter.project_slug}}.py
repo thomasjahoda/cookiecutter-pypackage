@@ -7,7 +7,7 @@ import unittest
 from click.testing import CliRunner
 {%- endif %}
 
-from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
+from {{ cookiecutter.project_slug }} import example
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 from {{ cookiecutter.project_slug }} import cli
 {%- endif %}
@@ -33,7 +33,6 @@ def test_content(response):
 
 
 def test_command_line_interface():
-    """Test the CLI."""
     runner = CliRunner()
     result = runner.invoke(cli.main)
     assert result.exit_code == 0
@@ -50,7 +49,6 @@ class Test{{ cookiecutter.project_slug|title }}(unittest.TestCase):
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 
     def test_command_line_interface(self):
-        """Test the CLI."""
         runner = CliRunner()
         result = runner.invoke(cli.main)
         assert result.exit_code == 0
@@ -58,5 +56,10 @@ class Test{{ cookiecutter.project_slug|title }}(unittest.TestCase):
         help_result = runner.invoke(cli.main, ['--help'])
         assert help_result.exit_code == 0
         assert '--help  Show this message and exit.' in help_result.output
+{%- else %}
+
+    def test_example(self):
+        pass
+
 {%- endif %}
 {%- endif %}
