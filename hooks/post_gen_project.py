@@ -1,10 +1,18 @@
 import os
+import subprocess
 
 PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
 
 
 def remove_file(filepath):
     os.remove(os.path.join(PROJECT_DIRECTORY, filepath))
+
+
+def initialize_git_repository():
+    subprocess.run(["git", "init"], check=True)
+    subprocess.run(["git", "add", "-A", "."], check=True)
+    subprocess.run(["git", "commit", "-m", "generated project from template {{ cookiecutter._template }}"], check=True)
+    subprocess.run(["git", "branch", "cookiecutter-template"], check=True)
 
 
 if __name__ == '__main__':
@@ -23,3 +31,6 @@ if __name__ == '__main__':
 
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')
+
+    if '{{ cookiecutter.initialize_git_repository }}' == 'y':
+        initialize_git_repository()
