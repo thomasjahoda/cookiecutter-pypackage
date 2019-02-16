@@ -118,7 +118,8 @@ def test_bake_and_run_tests(cookies):
 
 def test_bake_withspecialchars_and_run_tests(cookies):
     """Ensure that a `full_name` with double quotes does not break setup.py"""
-    with bake_in_temp_dir(cookies, extra_context={'full_name': 'name "quote" name'}) as result:
+    with bake_in_temp_dir(cookies, extra_context={'full_name': 'name "quote" name',
+                                                  'github_username': "nospecialcharsinusername"}) as result:
         assert result.project.isdir()
         assert run_inside_dir('python setup.py test', str(result.project)) == 0
 

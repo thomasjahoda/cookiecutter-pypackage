@@ -11,10 +11,14 @@ def remove_file(filepath):
 
 
 def initialize_git_repository():
+    print("Initializing Git repository")
     subprocess.run(["git", "init"], check=True)
     subprocess.run(["git", "add", "-A", "."], check=True)
     subprocess.run(["git", "commit", "-m", "generated project from template {{ cookiecutter._template }}"], check=True)
     subprocess.run(["git", "branch", "cookiecutter-template"], check=True)
+    print("Setting git config user.name and user.email with provided settings")
+    subprocess.run(["git", "config", "user.name", "{{ cookiecutter.full_name.replace('\"', '\\\"') }}"], check=True)
+    subprocess.run(["git", "config", "user.email", "{{ cookiecutter.email }}"], check=True)
 
 
 def initialize_venv_using_virtualenvwrapper():
