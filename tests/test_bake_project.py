@@ -1,13 +1,13 @@
-from contextlib import contextmanager
-import shlex
-import os
 import sys
+
+import datetime
+import os
+import shlex
 import subprocess
 import yaml
-import datetime
-from cookiecutter.utils import rmtree
-
 from click.testing import CliRunner
+from contextlib import contextmanager
+from cookiecutter.utils import rmtree
 from pathlib import Path
 
 if sys.version_info > (3, 0):
@@ -31,15 +31,30 @@ def inside_dir(dirpath):
 
 
 @contextmanager
-def bake_in_temp_dir(cookies, *args, **kwargs):
+def bake_in_temp_dir(cookies, use_custom_test_defaults=True, *args, **kwargs):
     """
     Delete the temporal directory that is created when executing the tests
+    :param use_custom_test_defaults: use common custom defaults for tests
     :param cookies: pytest_cookies.Cookies,
         cookie to be baked and its temporal files will be removed
     """
+    if use_custom_test_defaults:
+        custom_test_default_values = {
+            "initialize_git_repository": "n",
+            "initialize_venv_using_virtualenvwrapper": "n"
+        }
+        extra_context = kwargs.get("extra_context")
+        if extra_context is None:
+            extra_context = {}
+        else:
+            del kwargs["extra_context"]
+        extra_context = {**custom_test_default_values, **extra_context}
+    else:
+        extra_context = kwargs.get("extra_context")
+
     project_template_directory = Path(__file__).parent.parent
     with inside_dir(project_template_directory):
-        result = cookies.bake(*args, **kwargs)
+        result = cookies.bake(*args, extra_context=extra_context, **kwargs)
     if result.exception is not None:
         raise result.exception
     assert result.exit_code == 0
@@ -76,12 +91,12 @@ def project_info(result):
     """Get toplevel dir, project_slug, and project dir from baked cookies"""
     project_path = str(result.project)
     project_slug = os.path.split(project_path)[-1]
-    project_dir = os.path.join(project_path, project_slug)
-    return project_path, project_slug, project_dir
+    project_python_package_dir = os.path.join(project_path, project_slug)
+    return project_path, project_slug, project_python_package_dir
 
 
 def test_bake_with_defaults(cookies):
-    with bake_in_temp_dir(cookies) as result:
+    with bake_in_temp_dir(cookies, use_custom_test_defaults=False) as result:
         assert result.project.isdir()
         assert result.exit_code == 0
         assert result.exception is None
@@ -91,6 +106,7 @@ def test_bake_with_defaults(cookies):
         assert 'my_project' in found_toplevel_files
         assert 'tox.ini' in found_toplevel_files
         assert 'tests' in found_toplevel_files
+        assert '.git' in found_toplevel_files
 
 
 def test_bake_and_run_tests(cookies):
@@ -225,8 +241,8 @@ def test_not_using_pytest(cookies):
 def test_bake_with_no_console_script(cookies):
     context = {'command_line_interface': "No command-line interface"}
     with bake_in_temp_dir(cookies, extra_context=context) as result:
-        project_path, project_slug, project_dir = project_info(result)
-        found_project_files = os.listdir(project_dir)
+        project_path, project_slug, project_python_package_dir = project_info(result)
+        found_project_files = os.listdir(project_python_package_dir)
         assert "cli.py" not in found_project_files
 
         setup_path = os.path.join(project_path, 'setup.py')
@@ -237,8 +253,8 @@ def test_bake_with_no_console_script(cookies):
 def test_bake_with_console_script_files(cookies):
     context = {'command_line_interface': 'Click'}
     with bake_in_temp_dir(cookies, extra_context=context) as result:
-        project_path, project_slug, project_dir = project_info(result)
-        found_project_files = os.listdir(project_dir)
+        project_path, project_slug, project_python_package_dir = project_info(result)
+        found_project_files = os.listdir(project_python_package_dir)
         assert "cli.py" in found_project_files
 
         setup_path = os.path.join(project_path, 'setup.py')
@@ -246,11 +262,26 @@ def test_bake_with_console_script_files(cookies):
             assert 'entry_points' in setup_file.read()
 
 
+def test_bake_with_initializing_git_repository(cookies):
+    context = {'initialize_git_repository': 'y'}
+    with bake_in_temp_dir(cookies, extra_context=context) as result:
+        project_path, project_slug, project_python_package_dir = project_info(result)
+        found_project_files = os.listdir(project_path)
+        assert ".git" in found_project_files
+
+
+def test_bake_with_initializing_venv_using_virtualenvwrapper(cookies):
+    context = {'initialize_venv_using_virtualenvwrapper': 'y'}
+    with bake_in_temp_dir(cookies, extra_context=context) as result:
+        # not verifiable easily
+        pass
+
+
 def test_bake_with_console_script_cli(cookies):
     context = {'command_line_interface': 'Click'}
     with bake_in_temp_dir(cookies, extra_context=context) as result:
-        project_path, project_slug, project_dir = project_info(result)
-        module_path = os.path.join(project_dir, 'cli.py')
+        project_path, project_slug, project_python_package_dir = project_info(result)
+        module_path = os.path.join(project_python_package_dir, 'cli.py')
         module_name = '.'.join([project_slug, 'cli'])
         if sys.version_info >= (3, 5):
             spec = importlib.util.spec_from_file_location(module_name, module_path)
