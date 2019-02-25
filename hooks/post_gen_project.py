@@ -35,10 +35,10 @@ def initialize_venv_using_virtualenvwrapper():
 source $VIRTUALENVWRAPPER_SCRIPT
 VENV_NAME="{{ cookiecutter.project_slug }}"
 if echo "$(lsvirtualenv)" | grep -q -F "${VENV_NAME}"; then 
+    echo "venv $VENV_NAME already exists"
+else
     echo "Creating venv"
     mkvirtualenv "$VENV_NAME" || exit 1
-else
-    echo "venv $VENV_NAME already exists"
 fi
 """
     bash_script_file.write_text(bash_script, encoding="utf-8")
