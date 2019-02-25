@@ -6,8 +6,10 @@ from setuptools import setup, find_packages
 readme = Path('README.rst').read_text(encoding="utf-8")
 history = Path('docs/history.rst').read_text(encoding="utf-8")
 
+
 def parse_requirements(file: str):
     return Path(file).read_text(encoding="utf-8").strip().split('\n')
+
 
 requirements = parse_requirements('requirements/runtime.txt')
 setup_requirements = parse_requirements('requirements/setup.txt')
