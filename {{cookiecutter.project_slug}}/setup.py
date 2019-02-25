@@ -1,7 +1,5 @@
 from pathlib import Path
-
 from setuptools import find_packages, setup
-
 
 readme = Path('README.rst').read_text(encoding="utf-8")
 history = Path('docs/history.rst').read_text(encoding="utf-8")
