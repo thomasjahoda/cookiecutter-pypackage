@@ -5,5 +5,5 @@ if [[ $0 == $BASH_SOURCE ]]; then
     exit 1
 fi
 
-eval "$(_MANAGED_INFONOVA_SERVICE_TOOLS_COMPLETE=source {{cookiecutter.project_slug}})"
+eval "$(_{{cookiecutter.project_slug.upper()}}_COMPLETE=source {{cookiecutter.project_slug}})"
 
