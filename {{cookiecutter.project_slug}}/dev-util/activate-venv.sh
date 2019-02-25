@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+source ~/.bashrc
 if [[ $0 == $BASH_SOURCE ]]; then
     echo "source this script!"
     exit 1
