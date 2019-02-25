@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 
 readme = Path('README.rst').read_text(encoding="utf-8")
