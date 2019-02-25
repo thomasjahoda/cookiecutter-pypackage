@@ -25,8 +25,7 @@ function execute_and_translate_to_absolute_filenames() {
 
 export EXECUTE_HEAVY_INTEGRATION_TESTS=false
 export EXECUTE_LIGHTWEIGHT_INTEGRATION_TESTS=true
-execute_and_translate_to_absolute_filenames make test
-execute_and_translate_to_absolute_filenames make lint
+execute_and_translate_to_absolute_filenames pytest
 
-execute_and_translate_to_absolute_filenames make install
+execute_and_translate_to_absolute_filenames python setup.py install
 
