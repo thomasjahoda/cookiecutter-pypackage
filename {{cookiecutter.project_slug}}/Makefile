@@ -57,7 +57,7 @@ lint: ## check style with flake8
 	flake8 {{ cookiecutter.project_slug }} tests --max-line-length=120
 
 type-check: ## run tests quickly with the default Python
-	mypy managed_infonova_service_tools tests
+	mypy {{ cookiecutter.project_slug }} tests
 
 test: ## run tests quickly with the default Python
 {%- if cookiecutter.use_pytest == 'y' %}
