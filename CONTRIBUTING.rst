@@ -94,7 +94,7 @@ you already have `virtualenv` and `Git` installed and ready to go.
 
   .. code-block:: bash
 
-    $ pip install -r requirements/setup.txt -r requirements/test.txt -r requirements/runtime.txt
+    $ make install-dev
     $ py.test ./tests
 
    If you get any errors while installing cryptography package (something like #include <openssl/aes.h>).
@@ -108,9 +108,6 @@ you already have `virtualenv` and `Git` installed and ready to go.
   .. code-block:: bash
 
     $ tox
-
-   .. note::
-      If you are missing flake8, pytest and/or tox, just pip install them into your virtualenv.
 
 8. If your contribution is a bug fix or new feature, you may want to add a test to the existing test suite. See section Add a New Test below for details.
 

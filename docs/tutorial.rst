@@ -94,7 +94,7 @@ Your virtualenv should still be activated. If it isn't, activate it now. Install
 
 .. code-block:: bash
 
-    pip install -r requirements/setup.txt -r requirements/test.txt -r requirements/runtime.txt
+    make install-dev
 
 
 Step 5: Set Up Travis CI

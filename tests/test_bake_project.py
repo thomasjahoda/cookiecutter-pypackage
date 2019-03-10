@@ -207,8 +207,7 @@ def test_using_pytest(cookies):
         lines = test_file_path.readlines()
         assert "import pytest" in ''.join(lines)
         # Test the new pytest target
-        assert run_inside_dir('pip install -r requirements/setup.txt -r requirements/test.txt '
-                              '-r requirements/runtime.txt', str(result.project)) == 0
+        assert run_inside_dir('make install-dev', str(result.project)) == 0
         assert run_inside_dir('python setup.py pytest', str(result.project)) == 0
         # Test the test alias (which invokes pytest)
         assert run_inside_dir('python setup.py test', str(result.project)) == 0
@@ -260,13 +259,9 @@ def test_bake_with_console_script_files(cookies):
 
         setup_path = os.path.join(project_path, 'setup.py')
         with open(setup_path, 'r') as setup_file:
-            assert 'entry_points' in setup_file.read()
-
-        with open(os.path.join(project_path, 'requirements', 'runtime.txt'), 'r') as runtime_requirements_file:
-            runtime_dependencies = runtime_requirements_file.read()
-            print("dependencies: ", runtime_dependencies)
-            assert 'click==' in runtime_dependencies
-
+            setup_file_contents = setup_file.read()
+            assert 'entry_points' in setup_file_contents
+            assert 'click>=' in setup_file_contents
 
 def test_bake_with_initializing_git_repository(cookies):
     context = {'initialize_git_repository': 'y'}
@@ -308,6 +303,4 @@ def test_bake_with_console_script_cli(cookies):
         assert 'Show this message' in help_result.output
 
         # Test the new pytest target
-        assert run_inside_dir('pip install -r requirements/setup.txt -r requirements/test.txt '
-                              '-r requirements/runtime.txt', str(result.project)) == 0
         assert run_inside_dir('python setup.py pytest', str(result.project)) == 0

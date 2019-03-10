@@ -23,9 +23,5 @@ function execute_and_translate_to_absolute_filenames() {
     echo "success"
 }
 
-export EXECUTE_HEAVY_INTEGRATION_TESTS=false
-export EXECUTE_LIGHTWEIGHT_INTEGRATION_TESTS=true
+execute_and_translate_to_absolute_filenames make install-dev
 execute_and_translate_to_absolute_filenames pytest
-
-execute_and_translate_to_absolute_filenames python setup.py install
-

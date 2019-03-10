@@ -4,14 +4,24 @@ from setuptools import find_packages, setup
 readme = Path('README.rst').read_text(encoding="utf-8")
 history = Path('docs/history.rst').read_text(encoding="utf-8")
 
-
-def parse_requirements(file: str):
-    return Path(file).read_text(encoding="utf-8").strip().split('\n')
-
-
-requirements = parse_requirements('requirements/runtime.txt')
-setup_requirements = parse_requirements('requirements/setup.txt')
-test_requirements = parse_requirements('requirements/test.txt')
+runtime_requirements = [{%- if cookiecutter.command_line_interface | lower == 'click' %}
+    'click>=7.0',
+{%- endif %}]
+development_requirements = [
+    'pip>=19.0.2',
+    'bumpversion>=0.5.3',
+    'wheel>=0.32.3',
+    'watchdog>=0.9.0',
+    'flake8>=3.6.0',
+    'tox>=3.6.1',
+    'coverage>=4.5.2',
+    'Sphinx>=1.8.3',
+    'twine>=1.12.1',
+    'pluggy>=0.7.0',
+    'mypy>=0.650',{% if cookiecutter.use_pytest == 'y' -%}
+    'pytest>=3.8.2',
+    'pytest-runner>=4.2',{% endif %}
+]
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
@@ -36,14 +46,17 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     description="{{ cookiecutter.project_short_description }}",
-    {%- if 'no' not in cookiecutter.command_line_interface|lower %}
+    {%- if cookiecutter.command_line_interface|lower == 'click' %}
     entry_points={
         'console_scripts': [
             '{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main',
         ],
     },
     {%- endif %}
-    install_requires=requirements,
+    install_requires=runtime_requirements,
+    extras_require={
+        'dev': development_requirements
+    },
 {%- if cookiecutter.open_source_license in license_classifiers %}
     license="{{ cookiecutter.open_source_license }}",
 {%- endif %}
@@ -52,9 +65,7 @@ setup(
     keywords='{{ cookiecutter.project_slug }}',
     name='{{ cookiecutter.project_slug }}',
     packages=find_packages(include=['{{ cookiecutter.project_slug }}', '{{ cookiecutter.project_slug }}.*']),
-    setup_requires=setup_requirements,
     test_suite='tests',
-    tests_require=test_requirements,
     url='https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}',
     version='{{ cookiecutter.version }}',
     zip_safe=False,

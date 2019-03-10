@@ -1,6 +1,18 @@
 # !/usr/bin/env python
-
 from distutils.core import setup
+
+runtime_requirements = []
+development_requirements = [
+    'pytest==3.4.2',
+    'tox==2.9.1',
+    'cookiecutter>=1.4.0',
+    'pytest-cookies==0.3.0',
+    'watchdog==0.8.3',
+    'alabaster==0.7.10',
+    'pip-tools',
+    'cookiecutter',
+]
+
 setup(
     name='cookiecutter-pypackage',
     packages=[],
@@ -25,4 +37,8 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development',
     ],
+    install_requires=runtime_requirements,
+    extras_require={
+        'dev': development_requirements
+    },
 )
