@@ -1,2 +1,2 @@
-{% if cookiecutter.command_line_interface == 'y' -%}
+{% if cookiecutter.command_line_interface|lower == 'click' -%}
 click==7.0{% endif %}
