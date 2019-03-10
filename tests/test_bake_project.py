@@ -306,3 +306,8 @@ def test_bake_with_console_script_cli(cookies):
         help_result = runner.invoke(cli.main, ['--help'])
         assert help_result.exit_code == 0
         assert 'Show this message' in help_result.output
+
+        # Test the new pytest target
+        assert run_inside_dir('pip install -r requirements/setup.txt -r requirements/test.txt '
+                              '-r requirements/runtime.txt', str(result.project)) == 0
+        assert run_inside_dir('python setup.py pytest', str(result.project)) == 0
