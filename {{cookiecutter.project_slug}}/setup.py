@@ -4,9 +4,9 @@ from setuptools import find_packages, setup
 readme = Path('README.rst').read_text(encoding="utf-8")
 history = Path('docs/history.rst').read_text(encoding="utf-8")
 
-runtime_requirements = [{%- if cookiecutter.command_line_interface | lower == 'click' %}
+runtime_requirements = [{% if cookiecutter.command_line_interface | lower == 'click' %}
     'click>=7.0',
-{%- endif %}]
+{% endif %}]
 development_requirements = [
     'pip>=19.0.2',
     'bumpversion>=0.5.3',
@@ -18,7 +18,7 @@ development_requirements = [
     'Sphinx>=1.8.3',
     'twine>=1.12.1',
     'pluggy>=0.7.0',
-    'mypy>=0.650',{% if cookiecutter.use_pytest == 'y' -%}
+    'mypy>=0.650',{% if cookiecutter.use_pytest == 'y' %}
     'pytest>=3.8.2',
     'pytest-runner>=4.2',{% endif %}
 ]
