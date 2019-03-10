@@ -9,5 +9,3 @@ Sphinx==1.8.3
 twine==1.12.1
 pluggy>=0.7.0
 mypy==0.650
-{% if cookiecutter.command_line_interface == 'y' -%}
-click==6.7{% endif %}
