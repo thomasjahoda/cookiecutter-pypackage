@@ -262,6 +262,11 @@ def test_bake_with_console_script_files(cookies):
         with open(setup_path, 'r') as setup_file:
             assert 'entry_points' in setup_file.read()
 
+        with open(os.path.join(project_path, 'requirements', 'runtime.txt'), 'r') as runtime_requirements_file:
+            runtime_dependencies = runtime_requirements_file.read()
+            print("dependencies: ", runtime_dependencies)
+            assert 'click==' in runtime_dependencies
+
 
 def test_bake_with_initializing_git_repository(cookies):
     context = {'initialize_git_repository': 'y'}
