@@ -2,7 +2,7 @@
 History
 =======
 
-{{ cookiecutter.version }} ({% now 'local' %})
+{{ cookiecutter.version }} ({{ cookiecutter.project_creation_date }})
 ------------------
 
 * First release on PyPI.
