@@ -12,7 +12,7 @@ project_directory: Path = Path(os.getcwd()).parent
 assert project_directory.joinpath("Makefile").exists()
 
 
-def execute_and_translate_to_absolute_filenames(command: List[str]):
+def execute(command: List[str]):
     print(f"{' '.join(command)} ... ", end="")
     # output_pipe = os.pipe()
     result: subprocess.CompletedProcess = subprocess.run(
@@ -50,7 +50,7 @@ def _replace_source_paths_with_paths_relative_to_this_script(output: str):
     return output_with_absolute_paths
 
 
-execute_and_translate_to_absolute_filenames(["make", "install-dev"])
-execute_and_translate_to_absolute_filenames(["pytest"])
-execute_and_translate_to_absolute_filenames(["make", "lint"])
-execute_and_translate_to_absolute_filenames(["make", "type-check"])
+execute(["make", "install-dev"])
+execute(["pytest"])
+execute(["make", "lint"])
+execute(["make", "type-check"])
