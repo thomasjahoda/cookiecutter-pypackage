@@ -4,6 +4,8 @@ import datetime
 import os
 import shlex
 import subprocess
+
+import pytest
 import yaml
 from click.testing import CliRunner
 from contextlib import contextmanager
@@ -31,14 +33,14 @@ def inside_dir(dirpath):
 
 
 @contextmanager
-def bake_in_temp_dir(cookies, use_custom_test_defaults=True, *args, **kwargs):
+def bake_in_temp_dir(cookies, avoid_external_tools=True, *args, **kwargs):
     """
     Delete the temporal directory that is created when executing the tests
-    :param use_custom_test_defaults: use common custom defaults for tests
+    :param avoid_external_tools: use common custom defaults for tests
     :param cookies: pytest_cookies.Cookies,
         cookie to be baked and its temporal files will be removed
     """
-    if use_custom_test_defaults:
+    if avoid_external_tools:
         custom_test_default_values = {
             "initialize_git_repository": "n",
             "initialize_venv_using_virtualenvwrapper": "n"
@@ -95,8 +97,8 @@ def project_info(result):
     return project_path, project_slug, project_python_package_dir
 
 
-def test_bake_with_defaults(cookies):
-    with bake_in_temp_dir(cookies, use_custom_test_defaults=False) as result:
+def test_bake_with_defaults_except_external_tools(cookies):
+    with bake_in_temp_dir(cookies) as result:
         assert result.project.isdir()
         assert result.exit_code == 0
         assert result.exception is None
@@ -106,7 +108,6 @@ def test_bake_with_defaults(cookies):
         assert 'my_project' in found_toplevel_files
         assert 'tox.ini' in found_toplevel_files
         assert 'tests' in found_toplevel_files
-        assert '.git' in found_toplevel_files
 
 
 def test_bake_and_run_tests(cookies):
@@ -141,14 +142,14 @@ def test_bake_with_apostrophe_and_run_tests(cookies):
 #                             ' --repo thomasjahoda/cookiecutter-pypackage --password invalidpass')
 #         run_inside_dir(travis_setup_cmd, project_path)
 #         # then:
-#         result_travis_config = yaml.load(result.project.join(".travis.yml").open())
+#         result_travis_config = yaml.full_load(result.project.join(".travis.yml").open())
 #         min_size_of_encrypted_password = 50
 #         assert len(result_travis_config["deploy"]["password"]["secure"]) > min_size_of_encrypted_password
 
 
 def test_bake_without_travis_pypi_setup(cookies):
     with bake_in_temp_dir(cookies, extra_context={'use_pypi_deployment_with_travis': 'n'}) as result:
-        result_travis_config = yaml.load(result.project.join(".travis.yml").open())
+        result_travis_config = yaml.full_load(result.project.join(".travis.yml").open())
         assert "deploy" not in result_travis_config
         assert "python" == result_travis_config["language"]
         found_toplevel_files = [f.basename for f in result.project.listdir()]
@@ -233,7 +234,7 @@ def test_not_using_pytest(cookies):
 #     run_inside_dir(travis_setup_cmd, project_path)
 #
 #     # then:
-#     result_travis_config = yaml.load(open(os.path.join(project_path, ".travis.yml")))
+#     result_travis_config = yaml.full_load(open(os.path.join(project_path, ".travis.yml")))
 #     assert "secure" in result_travis_config["deploy"]["password"],\
 #         "missing password config in .travis.yml"
 
@@ -263,6 +264,8 @@ def test_bake_with_console_script_files(cookies):
             assert 'entry_points' in setup_file_contents
             assert 'click>=' in setup_file_contents
 
+
+@pytest.mark.using_external_tools
 def test_bake_with_initializing_git_repository(cookies):
     context = {'initialize_git_repository': 'y'}
     with bake_in_temp_dir(cookies, extra_context=context) as result:
@@ -271,6 +274,7 @@ def test_bake_with_initializing_git_repository(cookies):
         assert ".git" in found_project_files
 
 
+@pytest.mark.using_external_tools
 def test_bake_with_initializing_venv_using_virtualenvwrapper(cookies):
     context = {'initialize_venv_using_virtualenvwrapper': 'y'}
     with bake_in_temp_dir(cookies, extra_context=context) as result:
