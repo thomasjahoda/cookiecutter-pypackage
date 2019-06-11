@@ -56,20 +56,20 @@ clean-mypy: ## remove mypy cache
 lint: ## check style with flake8
 	flake8 {{ cookiecutter.project_slug }} tests --max-line-length=120
 
-type-check: ## run tests quickly with the default Python
+type-check: ## check types with mypy
 	mypy {{ cookiecutter.project_slug }} tests
 
-test: ## run tests quickly with the default Python
+test: ## run all tests with the current python env
 {%- if cookiecutter.use_pytest == 'y' %}
-	py.test
+	pytest
 {%- else %}
 	python setup.py test
 {%- endif %}
 
-test-all: ## run tests on every Python version with tox
+check-multiple-python-versions: ## run tests and other checks on every Python version with tox
 	tox
 
-coverage: ## check code coverage quickly with the default Python
+coverage: ## check code coverage with the current python env
 {%- if cookiecutter.use_pytest == 'y' %}
 	coverage run --source {{ cookiecutter.project_slug }} -m pytest
 {%- else %}

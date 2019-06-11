@@ -2,6 +2,7 @@ import os
 import re
 
 import subprocess
+import time
 from pathlib import Path
 from typing import List
 
@@ -14,7 +15,8 @@ assert project_directory.joinpath("Makefile").exists()
 
 def execute(command: List[str]):
     print(f"{' '.join(command)} ... ", end="")
-    # output_pipe = os.pipe()
+
+    start_time_seconds = time.perf_counter()
     result: subprocess.CompletedProcess = subprocess.run(
         command,
         cwd=str(project_directory),
@@ -23,12 +25,15 @@ def execute(command: List[str]):
         stdin=subprocess.PIPE,
         encoding="utf-8",
     )
+    duration_seconds = time.perf_counter() - start_time_seconds
+    duration_output = f"{round(duration_seconds * 1000)}ms"
+
     if result.returncode != 0:
-        print(f"failed with exit code {result.returncode}")
+        print(f"failed with exit code {result.returncode} ({duration_output})")
         _print_output(result)
         exit(1)
     else:
-        print("success")
+        print(f"success ({duration_output})")
         if output_logs_if_successful:
             _print_output(result)
 
@@ -43,6 +48,10 @@ def _print_output(result: subprocess.CompletedProcess):
 
 
 def _replace_source_paths_with_paths_relative_to_this_script(output: str):
+    """
+    This is necessary that the output has paths relative to this script and not to the project directory.
+    Having paths relative to the script will make IDEs create links from the paths in the output.
+    """
     output_with_absolute_paths: str = re.sub(f"^{project_name}/", f"../{project_name}/",
                                              output, flags=re.RegexFlag.MULTILINE)
     output_with_absolute_paths: str = re.sub(f"^tests/", f"../tests/",
@@ -51,6 +60,6 @@ def _replace_source_paths_with_paths_relative_to_this_script(output: str):
 
 
 execute(["make", "install-dev"])
-execute(["pytest"])
+execute(["make", "test"])
 execute(["make", "lint"])
 execute(["make", "type-check"])
