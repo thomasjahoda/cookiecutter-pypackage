@@ -52,8 +52,11 @@ def _encrypt_pypi_password_for_travis(project_owner_pypi_username: str):
             capture_output=True,
         )
     except FileNotFoundError as exception:
-        raise Exception("Command 'travis' needs to be available on path. "
-                        "Please install https://github.com/travis-ci/travis.rb#installation") from exception
+        raise Exception("Command 'travis' needs to be available on path.\n"
+                        "Please install https://github.com/travis-ci/travis.rb#installation\n"
+                        "Also make sure to login via 'travis login'.\n"
+                        "Generating an access token yourself is recommended though and "
+                        "logging in via: travis login --github-token [token]") from exception
     result.check_returncode()
     output = str(result.stdout, encoding="utf-8")
     encrypted_password = output[1:-2]
