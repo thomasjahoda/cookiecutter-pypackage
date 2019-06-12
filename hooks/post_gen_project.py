@@ -11,21 +11,19 @@ def remove_file(filepath):
 
 
 def initialize_git_repository_if_necessary():
-    is_already_git_repository = not Path(".git").exists()
-    if is_already_git_repository:
+    create_git_repository = not Path(".git").exists()
+    if create_git_repository:
         print("Initializing Git repository")
         subprocess.run(["git", "init"], check=True)
 
-    print("Setting git config user.name and user.email with provided settings")
-    subprocess.run(["git", "config", "user.name", "{{ cookiecutter.full_name.replace('\"', '\\\"') }}"], check=True)
-    subprocess.run(["git", "config", "user.email", "{{ cookiecutter.email }}"], check=True)
+        print("Setting git config user.name and user.email with provided settings")
+        subprocess.run(["git", "config", "user.name", "{{ cookiecutter.full_name.replace('\"', '\\\"') }}"], check=True)
+        subprocess.run(["git", "config", "user.email", "{{ cookiecutter.email }}"], check=True)
 
-    if is_already_git_repository:
-        template_branch = "cookiecutter-template"
-        print(f"Committing initial files and creating template branch {template_branch}")
+        print(f"Committing initial files")
         subprocess.run(["git", "add", "-A", "."], check=True)
-        subprocess.run(["git", "commit", "-m", "generated project from template {{ cookiecutter._template }}"], check=True)
-        subprocess.run(["git", "branch", template_branch], check=True)
+        subprocess.run(["git", "commit", "-m", "generated project from template {{ cookiecutter._template }}"],
+                       check=True)
 
 
 def initialize_venv_using_virtualenvwrapper():
