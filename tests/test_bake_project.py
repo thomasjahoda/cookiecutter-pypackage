@@ -113,7 +113,8 @@ def test_bake_with_defaults_except_external_tools(cookies):
 def test_bake_and_run_tests(cookies):
     with bake_in_temp_dir(cookies) as result:
         assert result.project.isdir()
-        assert run_inside_dir('python setup.py test', str(result.project)) == 0
+        assert run_inside_dir('make install-dev', str(result.project)) == 0
+        assert run_inside_dir('make test', str(result.project)) == 0
         print("test_bake_and_run_tests path", str(result.project))
 
 
@@ -129,7 +130,8 @@ def test_bake_with_apostrophe_and_run_tests(cookies):
     """Ensure that a `full_name` with apostrophes does not break setup.py"""
     with bake_in_temp_dir(cookies, extra_context={'full_name': "O'connor", 'github_username': "oconnor"}) as result:
         assert result.project.isdir()
-        assert run_inside_dir('python setup.py test', str(result.project)) == 0
+        assert run_inside_dir('make install-dev', str(result.project)) == 0
+        assert run_inside_dir('make test', str(result.project)) == 0
 
 
 # def test_bake_and_run_travis_pypi_setup(cookies):
@@ -209,9 +211,7 @@ def test_using_pytest(cookies):
         assert "import pytest" in ''.join(lines)
         # Test the new pytest target
         assert run_inside_dir('make install-dev', str(result.project)) == 0
-        assert run_inside_dir('python setup.py pytest', str(result.project)) == 0
-        # Test the test alias (which invokes pytest)
-        assert run_inside_dir('python setup.py test', str(result.project)) == 0
+        assert run_inside_dir('make test', str(result.project)) == 0
 
 
 def test_not_using_pytest(cookies):
@@ -306,5 +306,5 @@ def test_bake_with_console_script_cli(cookies):
         assert help_result.exit_code == 0
         assert 'Show this message' in help_result.output
 
-        # Test the new pytest target
-        assert run_inside_dir('python setup.py pytest', str(result.project)) == 0
+        assert run_inside_dir('make install-dev', str(result.project)) == 0
+        assert run_inside_dir('make test', str(result.project)) == 0
