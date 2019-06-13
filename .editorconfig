@@ -11,6 +11,9 @@ charset = utf-8
 end_of_line = lf
 max_line_length = 120
 
+[*.{yml, yaml}]
+indent_size = 2
+
 [*.bat]
 indent_style = tab
 end_of_line = crlf
@@ -21,5 +24,5 @@ insert_final_newline = false
 [Makefile]
 indent_style = tab
 
-[*.{diff,patch}]
+[*.{diff, patch}]
 trim_trailing_whitespace = false
