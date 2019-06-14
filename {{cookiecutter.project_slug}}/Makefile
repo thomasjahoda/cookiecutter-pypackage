@@ -53,10 +53,10 @@ clean-test: ## remove test and coverage artifacts
 clean-mypy: ## remove mypy cache
 	rm -fr .mypy_cache/
 
-lint: ## check style with flake8
+flake8: ## check style with flake8 (lint)
 	flake8 {{ cookiecutter.project_slug }} tests --max-line-length=120
 
-type-check: ## check types with mypy
+mypy: ## check types with mypy
 	mypy {{ cookiecutter.project_slug }} tests
 
 test: ## run all tests with the current python env
@@ -66,18 +66,18 @@ test: ## run all tests with the current python env
 	python setup.py test
 {%- endif %}
 
-check-multiple-python-versions: ## run tests and other checks on every Python version with tox
+tox: ## run tests and other checks on every Python version with tox
 	tox
 
 coverage: ## check code coverage with the current python env
 {%- if cookiecutter.use_pytest == 'y' %}
-	coverage run --source {{ cookiecutter.project_slug }} -m pytest
+	pytest --cov={{ cookiecutter.project_slug }} --cov-report=xml:.dev/coverage/coverage.xml
 {%- else %}
 	coverage run --source {{ cookiecutter.project_slug }} setup.py test
 {%- endif %}
 	coverage report -m
-	coverage html
-	$(BROWSER) htmlcov/index.html
+	coverage html --directory .dev/coverage/htmlcov
+	$(BROWSER) .dev/coverage/htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/{{ cookiecutter.project_slug }}.rst

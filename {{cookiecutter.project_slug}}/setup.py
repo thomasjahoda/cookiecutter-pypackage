@@ -21,7 +21,8 @@ development_requirements = [
     'mypy>=0.650',{% if cookiecutter.use_pytest == 'y' %}
     'pytest>=3.8.2',
     'pytest-runner>=4.2',
-    'pytest-mock>=1.10.1',{% endif %}
+    'pytest-mock>=1.10.1',
+    'pytest-cov>=2.7.1',{% endif %}
 ]
 
 {%- set license_classifiers = {
