@@ -6,6 +6,26 @@ dist: xenial
 install:
   - pip install -U tox
 
+cache:
+  directories:
+    - .dev/.tox
+before_cache:
+  - rm -rf .dev/.tox/log
+  - rm -rf .dev/.tox/dist
+  # --
+  - rm -rf .dev/.tox/py37/log
+  - rm -rf .dev/.tox/py36/log
+  - rm -rf .dev/.tox/mypy/log
+  - rm -rf .dev/.tox/flake8/log
+  # --
+  - rm -rf .dev/.tox/py37/lib/python3.7/site-packages/{{ cookiecutter.project_slug }}*
+  - rm -rf .dev/.tox/py36/lib/python3.6/site-packages/{{ cookiecutter.project_slug }}*
+  - rm -rf .dev/.tox/mypy/lib/python3.7/site-packages/{{ cookiecutter.project_slug }}*
+  - rm -rf .dev/.tox/flake8/lib/python3.7/site-packages/{{ cookiecutter.project_slug }}*
+  # --
+  - mv .dev/.tox/py37/coverage.xml .dev/coverage-py37.xml
+  - mv .dev/.tox/py36/coverage.xml .dev/coverage-py36.xml
+
 stages:
   - name: test
 {%- if cookiecutter.use_pypi_deployment_with_travis == 'y' %}
@@ -22,7 +42,7 @@ jobs:
       script: tox -e py37
       after_success:
         - pip install codecov
-        - codecov --file .dev/.tox/py37/coverage.xml
+        - codecov --file .dev/coverage-py37.xml
     - name: "tests python3.6"
       python: 3.6
       script: tox -e py36
