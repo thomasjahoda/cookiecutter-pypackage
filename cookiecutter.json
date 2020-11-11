@@ -14,7 +14,7 @@
   "create_author_file": "y",
   "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],
   "initialize_git_repository": "y",
-  "initialize_venv_using_virtualenvwrapper": "y",
+  "initialize_venv_using_virtualenvwrapper": "n",
   "project_creation_date": "{% now 'local' %}",
   "project_creation_date_year": "{% now 'local', '%Y' %}"
 }
