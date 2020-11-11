@@ -3,12 +3,13 @@ from distutils.core import setup
 
 runtime_requirements = []
 development_requirements = [
-    'pytest==3.4.2',
-    'tox==2.9.1',
-    'cookiecutter>=1.4.0',
-    'pytest-cookies==0.3.0',
-    'watchdog==0.8.3',
-    'alabaster==0.7.10',
+    'pytest==5.4.3',
+    'tox==3.20.1',
+    'cookiecutter>=1.7.2',
+    'pytest-cookies==0.5.1',
+    'watchdog==0.10.3',
+    'alabaster==0.7.12',
+    'PyYAML==5.3.1',
     'pip-tools',
     'cookiecutter',
 ]
@@ -23,7 +24,7 @@ setup(
     author_email='thomasjahoda@users.noreply.github.com',
     url='https://github.com/thomasjahoda/cookiecutter-pypackage',
     keywords=['cookiecutter', 'template', 'package', ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

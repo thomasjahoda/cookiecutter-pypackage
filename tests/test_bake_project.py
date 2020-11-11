@@ -53,7 +53,10 @@ def bake_in_temp_dir(cookies, avoid_external_tools=True, *args, **kwargs):
 
     project_template_directory = Path(__file__).parent.parent
     with inside_dir(project_template_directory):
-        result = cookies.bake(*args, extra_context=extra_context, **kwargs)
+        result = cookies.bake(*args,
+                              extra_context=extra_context,
+                              template=str(project_template_directory),
+                              **kwargs)
     if result.exception is not None:
         raise result.exception
     assert result.exit_code == 0
