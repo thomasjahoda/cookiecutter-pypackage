@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from pathlib import Path
 from setuptools import find_packages, setup
 
@@ -36,6 +38,7 @@ development_requirements = [
 setup(
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     author_email="{{ cookiecutter.email.replace('\"', '\\\"') }}",
+    python_requires='>=3.7',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -44,8 +47,8 @@ setup(
 {%- endif %}
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     description="{{ cookiecutter.project_short_description }}",
     {%- if cookiecutter.command_line_interface|lower == 'click' %}

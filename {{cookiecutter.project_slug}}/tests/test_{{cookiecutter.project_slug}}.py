@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 {% if cookiecutter.use_pytest == 'y' -%}
 import pytest
 {% else %}

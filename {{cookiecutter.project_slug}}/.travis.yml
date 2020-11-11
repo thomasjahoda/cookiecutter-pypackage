@@ -1,4 +1,4 @@
-# Config file for automatic testing at travis-ci.org
+# Config file for automatic testing at travis-ci.com
 
 language: python
 dist: xenial
@@ -17,25 +17,25 @@ jobs:
   include:
     # --
     - stage: test
-      name: "tests python3.7"
-      python: 3.7
-      script: tox -e py37
+      name: "tests python3.8"
+      python: 3.8
+      script: tox -e py38
       after_success:
         - pip install codecov
         - codecov --file .dev/.tox/py37/coverage.xml
-    - name: "tests python3.6"
-      python: 3.6
-      script: tox -e py36
-    - name: "mypy"
+    - name: "tests python3.7"
       python: 3.7
+      script: tox -e py37
+    - name: "mypy"
+      python: 3.8
       script: tox -e mypy
     - name: "flake8"
-      python: 3.7
+      python: 3.8
       script: tox -e flake8
 {%- if cookiecutter.use_pypi_deployment_with_travis == 'y' %}
     # --
     - stage: deploy
-      python: 3.7
+      python: 3.8
       deploy:
         provider: pypi
         distributions: sdist bdist_wheel
@@ -45,5 +45,5 @@ jobs:
         on:
           tags: true
           repo: {{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
-          python: 3.7
+          python: 3.8
 {%- endif %}

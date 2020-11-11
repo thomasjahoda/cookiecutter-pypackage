@@ -12,10 +12,7 @@ from contextlib import contextmanager
 from cookiecutter.utils import rmtree
 from pathlib import Path
 
-if sys.version_info > (3, 0):
-    import importlib
-else:
-    import imp
+import importlib
 
 
 @contextmanager
@@ -154,7 +151,7 @@ def test_bake_without_travis_pypi_setup(cookies):
         result_travis_config = yaml.full_load(result.project.join(".travis.yml").open())
         assert "deploy" not in result_travis_config
         assert "python" == result_travis_config["language"]
-        found_toplevel_files = [f.basename for f in result.project.listdir()]
+        # found_toplevel_files = [f.basename for f in result.project.listdir()]
 
 
 def test_bake_without_author_file(cookies):
@@ -177,9 +174,16 @@ def test_bake_without_author_file(cookies):
 
 def test_make_help(cookies):
     with bake_in_temp_dir(cookies) as result:
+        # The supplied Makefile does not support win32
+        if sys.platform != "win32":
+            output = check_output_inside_dir(
+                'make help',
+                str(result.project)
+            )
+            assert b"check code coverage with the current python env" in \
+                output
         output = check_output_inside_dir('make help', str(result.project))
         assert b"check code coverage with the current python env" in output
-
 
 def test_bake_selecting_license(cookies):
     license_strings = {

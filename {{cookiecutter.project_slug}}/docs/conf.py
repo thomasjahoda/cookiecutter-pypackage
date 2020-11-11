@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#
 # {{ cookiecutter.project_slug }} documentation build configuration file, created by
 # sphinx-quickstart on Fri Jun  9 13:47:02 2017.
 #
@@ -126,8 +128,8 @@ latex_elements = {
 # [howto, manual, or own class]).
 latex_documents = [
     (master_doc, '{{ cookiecutter.project_slug }}.tex',
-     u'{{ cookiecutter.project_name }} Documentation',
-     u'{{ cookiecutter.full_name }}', 'manual'),
+     '{{ cookiecutter.project_name }} Documentation',
+     '{{ cookiecutter.full_name }}', 'manual'),
 ]
 
 
@@ -137,7 +139,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     (master_doc, '{{ cookiecutter.project_slug }}',
-     u'{{ cookiecutter.project_name }} Documentation',
+     '{{ cookiecutter.project_name }} Documentation',
      [author], 1)
 ]
 
@@ -149,7 +151,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, '{{ cookiecutter.project_slug }}',
-     u'{{ cookiecutter.project_name }} Documentation',
+     '{{ cookiecutter.project_name }} Documentation',
      author,
      '{{ cookiecutter.project_slug }}',
      'One line description of project.',
